@@ -12,7 +12,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [process.env.AMQP_URL],
-        queue: 'users_queue',
+        queue: 'user_queue',
         queueOptions: {
           durable: false,
         },
@@ -20,6 +20,6 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  Logger.log('Microservice payment is listening');
+  Logger.log('Microservice warehouse is listening');
 }
 bootstrap();
