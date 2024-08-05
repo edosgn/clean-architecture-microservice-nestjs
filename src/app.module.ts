@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { WarehouseModule } from './warehouse/warehouse.module';
 
 import { Ingredient } from '@warehouse/infrastructure/entities/db/ingredient.entity';
+import { Inventory } from '@warehouse/infrastructure/entities/db/inventory.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { Ingredient } from '@warehouse/infrastructure/entities/db/ingredient.ent
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Ingredient],
+      entities: [Ingredient, Inventory],
       synchronize: true,
     }),
     WarehouseModule,
