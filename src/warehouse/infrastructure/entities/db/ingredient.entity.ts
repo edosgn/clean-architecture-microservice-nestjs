@@ -1,12 +1,12 @@
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 
-@Entity('ingredients', { schema: process.env.DB_SCHEMA })
+@Entity('ingredients')
 export class Ingredient {
   @PrimaryColumn()
   @Generated('increment')
   id?: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })

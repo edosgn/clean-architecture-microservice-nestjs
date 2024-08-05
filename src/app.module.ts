@@ -5,7 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 
 import { AppService } from './app.service';
+
 import { WarehouseModule } from './warehouse/warehouse.module';
+
+import { Ingredient } from '@warehouse/infrastructure/entities/db/ingredient.entity';
 
 @Module({
   imports: [
@@ -20,7 +23,7 @@ import { WarehouseModule } from './warehouse/warehouse.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [],
+      entities: [Ingredient],
       synchronize: true,
     }),
     WarehouseModule,

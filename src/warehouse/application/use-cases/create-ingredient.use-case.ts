@@ -11,9 +11,9 @@ import { ResponseEntity } from '@core/domain/entities/response.entity';
 @Injectable()
 export class CreateIngredientUseCase implements ICreateIngredientUseCase {
   constructor(private readonly ingredientService: IIngredientService) {}
-  async execute(data: IngredientEntity): Promise<ResponseEntity | void> {
+  async execute(payload: IngredientEntity): Promise<ResponseEntity | void> {
     try {
-      const ingredient = await this.ingredientService.create(data);
+      const ingredient = await this.ingredientService.create(payload);
 
       return {
         statusCode: HttpStatus.OK,
