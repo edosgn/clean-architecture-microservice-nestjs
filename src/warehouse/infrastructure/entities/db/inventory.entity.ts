@@ -1,4 +1,13 @@
-import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Generated,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
+
+import { Ingredient } from './ingredient.entity';
 
 @Entity('inventories')
 export class Inventory {
@@ -6,8 +15,9 @@ export class Inventory {
   @Generated('increment')
   id?: number;
 
-  @Column({ unique: true })
-  ingredient_id: number;
+  @OneToOne(() => Ingredient, (ingredient) => ingredient.inventory)
+  @JoinColumn({ name: 'ingredient_id' })
+  ingredient: Ingredient;
 
   @Column()
   quantity: number;

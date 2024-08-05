@@ -29,6 +29,9 @@ import { InventoryServiceImpl } from './infrastructure/services/inventory.servic
 import { IUpdateInventoryUseCase } from './domain/ports/update-inventory.use-case';
 import { UpdateInventoryUseCase } from './application/use-cases/update-inventory.use-case';
 
+import { IGetInventoryUseCase } from './domain/ports/get-inventory.use-case';
+import { GetInventoryUseCase } from './application/use-cases/get-inventory.use-case';
+
 @Module({
   imports: [TypeOrmModule.forFeature([Ingredient, Inventory])],
   controllers: [IngredientController, InventoryController],
@@ -56,6 +59,18 @@ import { UpdateInventoryUseCase } from './application/use-cases/update-inventory
     {
       provide: IUpdateInventoryUseCase,
       useClass: UpdateInventoryUseCase,
+    },
+    {
+      provide: IInventoryRepository,
+      useClass: InventoryRepositoryImpl,
+    },
+    {
+      provide: IInventoryService,
+      useClass: InventoryServiceImpl,
+    },
+    {
+      provide: IGetInventoryUseCase,
+      useClass: GetInventoryUseCase,
     },
   ],
 })

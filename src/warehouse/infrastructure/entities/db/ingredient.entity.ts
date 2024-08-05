@@ -1,5 +1,5 @@
-import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
-
+import { Column, Entity, Generated, OneToOne, PrimaryColumn } from 'typeorm';
+import { Inventory } from './inventory.entity';
 @Entity('ingredients')
 export class Ingredient {
   @PrimaryColumn()
@@ -11,4 +11,7 @@ export class Ingredient {
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
+  @OneToOne(() => Inventory, (inventory) => inventory.ingredient)
+  inventory: Inventory;
 }
