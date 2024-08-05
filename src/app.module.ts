@@ -6,6 +6,10 @@ import { AppController } from './app.controller';
 
 import { AppService } from './app.service';
 
+import { WarehouseModule } from './warehouse/warehouse.module';
+
+import { Ingredient } from '@warehouse/infrastructure/entities/db/ingredient.entity';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,9 +23,10 @@ import { AppService } from './app.service';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [],
+      entities: [Ingredient],
       synchronize: true,
     }),
+    WarehouseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
