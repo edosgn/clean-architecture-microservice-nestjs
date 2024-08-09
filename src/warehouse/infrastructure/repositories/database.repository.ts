@@ -1,6 +1,5 @@
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { IDatabaseRepository } from '@warehouse/domain/repositories/database.repository';
-
 export abstract class DatabaseRepository<T> implements IDatabaseRepository<T> {
   private entity: Repository<T>;
 
