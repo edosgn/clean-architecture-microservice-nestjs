@@ -17,9 +17,7 @@ export class GetInventoryUseCase implements IGetInventoryUseCase {
         statusCode: HttpStatus.OK,
         status: 'success',
         message: 'Inventario listo',
-        data: {
-          inventory,
-        },
+        data: inventory,
       };
     } catch (error) {
       console.log('file: get-inventory.use-case.ts:25 ~ error:', error);
