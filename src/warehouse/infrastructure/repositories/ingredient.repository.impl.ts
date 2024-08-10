@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Repository } from 'typeorm';
 
 import { IIngredientRepository } from '@warehouse/domain/repositories/ingredient.repository';
 import { DatabaseRepository } from './database.repository';
+
 import { Ingredient } from '../entities/db/ingredient.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class IngredientRepositoryImpl
