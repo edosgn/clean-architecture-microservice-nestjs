@@ -8,7 +8,11 @@ import { INVENTORY_MSG } from '@warehouse/domain/enums/queues.enum';
 
 import { MessagePattern } from '@nestjs/microservices';
 
-import { InventoryEntity } from '@warehouse/domain/entities/inventory.entity';
+import {
+  GetOneInventoryByIngredientIdEntity,
+  InventoryEntity,
+} from '@warehouse/domain/entities/inventory.entity';
+import { IGetOneInventoryByIngredientIdUseCase } from '../../domain/ports/get-one-inventory-by-ingredient.use-case';
 
 @ApiTags('inventories')
 @Controller('inventories')
@@ -16,6 +20,7 @@ export class InventoryController {
   constructor(
     private updateInventoryUseCase: IUpdateInventoryUseCase,
     private getInventoryUseCase: IGetInventoryUseCase,
+    private getOneInventoryByIngredientIdUseCase: IGetOneInventoryByIngredientIdUseCase,
   ) {}
 
   @MessagePattern(INVENTORY_MSG.UPDATE_INVENTORY)
@@ -26,5 +31,12 @@ export class InventoryController {
   @MessagePattern(INVENTORY_MSG.GET_INVENTORY)
   async findAll() {
     return await this.getInventoryUseCase.execute();
+  }
+
+  @MessagePattern(INVENTORY_MSG.GET_ONE_INVENTORY_BY_INGREDIENT_ID)
+  async findOneByIngredientId(
+    @Body() payload: GetOneInventoryByIngredientIdEntity,
+  ) {
+    return await this.getOneInventoryByIngredientIdUseCase.execute(payload);
   }
 }

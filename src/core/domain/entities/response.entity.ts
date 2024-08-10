@@ -5,5 +5,5 @@ export class ResponseEntity {
   data?: any;
 }
 
-export type statusCode = 200 | 204 | 400 | 500;
+export type statusCode = 200 | 204 | 400 | 404 | 500;
 export type statusType = 'success' | 'error' | 'warning' | 'info';

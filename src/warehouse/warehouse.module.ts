@@ -15,6 +15,9 @@ import { IngredientServiceImpl } from './infrastructure/services/ingredient.serv
 import { ICreateIngredientUseCase } from './domain/ports/create-ingredient.use-case';
 import { CreateIngredientUseCase } from './application/use-cases/create-ingredient.use-case';
 
+import { IGetOneIngredientByNameUseCase } from './domain/ports/get-one-ingredient-by-name.use-case';
+import { GetOneIngredientByNameUseCase } from './application/use-cases/get-one-ingredient-by-name.use-case';
+
 // Inventory
 import { Inventory } from './infrastructure/entities/db/inventory.entity';
 
@@ -32,6 +35,9 @@ import { UpdateInventoryUseCase } from './application/use-cases/update-inventory
 import { IGetInventoryUseCase } from './domain/ports/get-inventory.use-case';
 import { GetInventoryUseCase } from './application/use-cases/get-inventory.use-case';
 
+import { IGetOneInventoryByIngredientIdUseCase } from './domain/ports/get-one-inventory-by-ingredient.use-case';
+import { GetOneInventoryByIngredientIdUseCase } from './application/use-cases/get-one-inventory-by-ingredient-id.use-case';
+
 @Module({
   imports: [TypeOrmModule.forFeature([Ingredient, Inventory])],
   controllers: [IngredientController, InventoryController],
@@ -47,6 +53,10 @@ import { GetInventoryUseCase } from './application/use-cases/get-inventory.use-c
     {
       provide: ICreateIngredientUseCase,
       useClass: CreateIngredientUseCase,
+    },
+    {
+      provide: IGetOneIngredientByNameUseCase,
+      useClass: GetOneIngredientByNameUseCase,
     },
     {
       provide: IInventoryRepository,
@@ -71,6 +81,10 @@ import { GetInventoryUseCase } from './application/use-cases/get-inventory.use-c
     {
       provide: IGetInventoryUseCase,
       useClass: GetInventoryUseCase,
+    },
+    {
+      provide: IGetOneInventoryByIngredientIdUseCase,
+      useClass: GetOneInventoryByIngredientIdUseCase,
     },
   ],
 })
