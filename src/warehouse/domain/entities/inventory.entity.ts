@@ -5,6 +5,7 @@ export class InventoryEntity {
   public updated_at?: Date;
   public created_at?: Date;
 }
+
 export class GetOneInventoryByIngredientIdEntity {
   public ingredient_id: number;
 }
