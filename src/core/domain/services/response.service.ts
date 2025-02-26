@@ -1,13 +1,13 @@
 import {
   ResponseEntity,
-  StatusCode,
-  StatusType,
 } from '../entities/response.entity';
+import { HttpStatusCodeEnum } from '../enums/http-status-code.enum';
+import { HttpStatusTypeEnum } from '../enums/http-status-type.enum';
 
 export abstract class IResponseService {
   abstract execute<T = null>(
-    statusCode: StatusCode,
-    statusDesc: StatusType,
+    statusCode: HttpStatusCodeEnum,
+    statusDesc: HttpStatusTypeEnum,
     message: string,
     data?: T,
   ): Promise<ResponseEntity>;

@@ -48,6 +48,18 @@ export class IngredientController {
 
   @MessagePattern(INGREDIENT_MSG.GET_ONE_INGREDIENT_BY_NAME)
   async findOneByName(@Body() payload: GetOneIngredientByNameEntity): Promise<ResponseEntity> {
-    return await this.getOneByNameIngredientUseCase.execute(payload);
+    try {
+      const ingredient = await this.getOneByNameIngredientUseCase.execute(payload)
+
+      return await this.responseService.execute(
+        HttpStatusCodeEnum.OK,
+        HttpStatusTypeEnum.SUCCESS,
+        WharehouseMessages.INGREDIENT.FOUND_SUCCESS,
+        ingredient,
+      );
+
+    } catch (error) {
+      ErrorHandlerService.handle(error);
+    }
   }
 }
