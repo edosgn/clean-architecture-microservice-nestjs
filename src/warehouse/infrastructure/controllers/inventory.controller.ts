@@ -13,6 +13,7 @@ import {
   InventoryEntity,
 } from '@warehouse/domain/entities/inventory.entity';
 import { IGetOneInventoryByIngredientIdUseCase } from '../../domain/ports/get-one-inventory-by-ingredient.use-case';
+import { ResponseEntity } from '@core/domain/entities/response.entity';
 
 @ApiTags('inventories')
 @Controller('inventories')
@@ -24,19 +25,19 @@ export class InventoryController {
   ) {}
 
   @MessagePattern(INVENTORY_MSG.UPDATE_INVENTORY)
-  async create(@Body() payload: InventoryEntity) {
+  async create(@Body() payload: InventoryEntity): Promise<ResponseEntity> {
     return await this.updateInventoryUseCase.execute(payload);
   }
 
   @MessagePattern(INVENTORY_MSG.GET_INVENTORY)
-  async findAll() {
+  async findAll(): Promise<ResponseEntity> {
     return await this.getInventoryUseCase.execute();
   }
 
   @MessagePattern(INVENTORY_MSG.GET_ONE_INVENTORY_BY_INGREDIENT_ID)
   async findOneByIngredientId(
     @Body() payload: GetOneInventoryByIngredientIdEntity,
-  ) {
+  ): Promise<ResponseEntity> {
     return await this.getOneInventoryByIngredientIdUseCase.execute(payload);
   }
 }

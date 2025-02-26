@@ -1,9 +1,9 @@
+import { HttpStatusCodeEnum } from '@core/domain/enums/http-status-code.enum';
+import { HttpStatusTypeEnum } from '@core/domain/enums/http-status-type.enum';
+
 export class ResponseEntity {
-  statusCode: statusCode;
-  status: statusType;
+  statusCode: HttpStatusCodeEnum;
+  statusDesc: HttpStatusTypeEnum;
   message: string;
   data?: any;
 }
-
-export type statusCode = 200 | 204 | 400 | 404 | 500;
-export type statusType = 'success' | 'error' | 'warning' | 'info';

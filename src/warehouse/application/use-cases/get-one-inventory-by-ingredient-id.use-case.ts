@@ -8,6 +8,8 @@ import { IInventoryService } from '@warehouse/domain/services/inventory.service'
 import { ResponseEntity } from '@core/domain/entities/response.entity';
 
 import { GetOneInventoryByIngredientIdEntity } from '@warehouse/domain/entities/inventory.entity';
+import { WarehouseConfig } from '../core.config';
+import { STATUS_DESC } from '@warehouse/domain/enums/status-desc.enum';
 
 @Injectable()
 export class GetOneInventoryByIngredientIdUseCase
@@ -23,10 +25,10 @@ export class GetOneInventoryByIngredientIdUseCase
 
       return {
         statusCode: inventory ? HttpStatus.OK : HttpStatus.NOT_FOUND,
-        status: inventory ? 'success' : 'warning',
+        status: inventory ? STATUS_DESC.SUCCESS : STATUS_DESC.WARNING,
         message: inventory
-          ? 'Inventario encontrado'
-          : 'Inventario no encontrado',
+          ? WarehouseConfig.ERROR_MESSAGES.inventory.not_found
+          : WarehouseConfig.SUCCESS_MESSAGES.inventory.found,
         data: inventory,
       };
     } catch (error) {

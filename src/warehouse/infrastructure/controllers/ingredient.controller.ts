@@ -12,6 +12,12 @@ import {
 import { INGREDIENT_MSG } from '@warehouse/domain/enums/queues.enum';
 
 import { MessagePattern } from '@nestjs/microservices';
+import { ResponseEntity } from '@core/domain/entities/response.entity';
+import { IResponseService } from '@core/domain/services/response.service';
+import { HttpStatusCodeEnum } from '@core/domain/enums/http-status-code.enum';
+import { HttpStatusTypeEnum } from '@core/domain/enums/http-status-type.enum';
+import { WharehouseMessages } from '@warehouse/domain/constants/messages';
+import { ErrorHandlerService } from '@core/infrastructure/services/error-handler.service';
 
 @ApiTags('ingredients')
 @Controller('ingredients')
@@ -19,17 +25,29 @@ export class IngredientController {
   constructor(
     private createIngredientUseCase: ICreateIngredientUseCase,
     private getOneByNameIngredientUseCase: IGetOneIngredientByNameUseCase,
+    private responseService: IResponseService,
   ) {}
 
   @MessagePattern(INGREDIENT_MSG.CREATE_INGREDIENT)
-  async create(@Body() payload: IngredientEntity) {
-    return await this.createIngredientUseCase.execute(
-      payload as IngredientEntity,
-    );
+  async create(@Body() payload: IngredientEntity): Promise<ResponseEntity> {
+    try {
+      const ingredient = await this.createIngredientUseCase.execute(
+        payload as IngredientEntity,
+      );
+
+      return await this.responseService.execute(
+        HttpStatusCodeEnum.OK,
+        HttpStatusTypeEnum.SUCCESS,
+        WharehouseMessages.INGREDIENT.CREATED_SUCCESS,
+        ingredient,
+      );
+    } catch (error) {
+      ErrorHandlerService.handle(error);
+    }
   }
 
   @MessagePattern(INGREDIENT_MSG.GET_ONE_INGREDIENT_BY_NAME)
-  async findOneByName(@Body() payload: GetOneIngredientByNameEntity) {
+  async findOneByName(@Body() payload: GetOneIngredientByNameEntity): Promise<ResponseEntity> {
     return await this.getOneByNameIngredientUseCase.execute(payload);
   }
 }
