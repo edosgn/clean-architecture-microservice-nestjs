@@ -21,6 +21,7 @@ WORKDIR /app
 # Copiar solo lo necesario desde el builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
+COPY .env ./
 
 # Instalar solo dependencias necesarias para producción
 RUN npm install --omit=dev --legacy-peer-deps --force
