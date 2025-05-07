@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  username: cm9vdA==         # base64("root")
+  password: MTIzNDU2Nzg5JCM= # base64("123456789!$")
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-api
+  template:
+    metadata:
+      labels:
+        app: microservice-api
+    spec:
+      containers:
+        - name: microservice-api
+          image: edgargn87/clean-architecture-microservice-nestjs:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: "mysql-service"
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+            - name: DB_DATABASE
+              value: "db_ms_warehouse"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-api-service
+spec:
+  selector:
+    app: microservice-api
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
