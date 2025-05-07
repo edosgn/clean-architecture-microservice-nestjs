@@ -1,7 +1,7 @@
-# =======================
+# ======================
 # Etapa 1: Build
-# =======================
-FROM node:22-alpine as builder
+# ======================
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
@@ -11,18 +11,21 @@ RUN npm install --legacy-peer-deps --force
 COPY . .
 RUN npm run build
 
-# =======================
+# ======================
 # Etapa 2: Producción
-# =======================
-FROM node:22-alpine
+# ======================
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copiamos solo lo necesario desde la etapa anterior
+# Copiar solo lo necesario desde el builder
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
+# Instalar solo dependencias necesarias para producción
+RUN npm install --omit=dev --legacy-peer-deps --force
+
+# Instalar PM2 para mantener el proceso en ejecución
 RUN npm install -g pm2
 
 EXPOSE 3000
