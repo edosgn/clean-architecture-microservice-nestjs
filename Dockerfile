@@ -1,17 +1,30 @@
-FROM node:20
+# =======================
+# Etapa 1: Build
+# =======================
+FROM node:22-alpine as builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-
-RUN npm cache clean -f
-
+COPY package*.json ./
 RUN npm install --legacy-peer-deps --force
 
-# Install PM2
+COPY . .
+RUN npm run build
+
+# =======================
+# Etapa 2: Producción
+# =======================
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Copiamos solo lo necesario desde la etapa anterior
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
 RUN npm install -g pm2
 
-COPY ./dist ./src
+EXPOSE 3000
 
-#CMD
-CMD ["pm2-runtime", "src/main.js"]
+CMD ["pm2-runtime", "dist/main.js"]
