@@ -5,6 +5,8 @@ import { IGetInventoryUseCase } from '@warehouse/domain/ports/get-inventory.use-
 import { IInventoryService } from '@warehouse/domain/services/inventory.service';
 
 import { ResponseEntity } from '@core/domain/entities/response.entity';
+import { HttpStatusCodeEnum } from '@core/domain/enums/http-status-code.enum';
+import { HttpStatusTypeEnum } from '@core/domain/enums/http-status-type.enum';
 
 @Injectable()
 export class GetInventoryUseCase implements IGetInventoryUseCase {
@@ -14,13 +16,12 @@ export class GetInventoryUseCase implements IGetInventoryUseCase {
       const inventory = await this.inventoryService.findAll();
 
       return {
-        statusCode: HttpStatus.OK,
-        status: 'success',
+        statusCode: HttpStatusCodeEnum.OK,
+        statusDesc: HttpStatusTypeEnum.SUCCESS,
         message: 'Inventario listo',
         data: inventory,
       };
     } catch (error) {
-      console.log('file: get-inventory.use-case.ts:25 ~ error:', error);
       throw new RpcException(new BadRequestException(error.message));
     }
   }

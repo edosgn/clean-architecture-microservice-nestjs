@@ -10,6 +10,7 @@ import {
   ServiceUnavailableCustomException,
   InternalServerCustomException,
 } from '@core/domain/exeptions/custom.exception';
+import { CoreMessages } from '@core/domain/constants/messages';
 
 export class ErrorHandlerService {
   private static errorMap: Record<number, new (message?: string) => Error> = {
@@ -27,7 +28,7 @@ export class ErrorHandlerService {
     const ExceptionClass =
       this.errorMap[error?.status] || InternalServerCustomException;
     throw new RpcException(
-      new ExceptionClass(error?.message || 'Error inesperado'),
+      new ExceptionClass(error?.message || CoreMessages.GENERAL.UNKNOWN_ERROR),
     );
   }
 }

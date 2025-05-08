@@ -51,13 +51,21 @@ export class IngredientController {
     try {
       const ingredient = await this.getOneByNameIngredientUseCase.execute(payload)
 
+      if (!ingredient) {
+        return await this.responseService.execute(
+          HttpStatusCodeEnum.NOT_FOUND,
+          HttpStatusTypeEnum.ERROR,
+          WharehouseMessages.INGREDIENT.FOUND_SUCCESS,
+          ingredient,
+        );
+      }
+
       return await this.responseService.execute(
         HttpStatusCodeEnum.OK,
         HttpStatusTypeEnum.SUCCESS,
         WharehouseMessages.INGREDIENT.FOUND_SUCCESS,
         ingredient,
       );
-
     } catch (error) {
       ErrorHandlerService.handle(error);
     }
